@@ -2,7 +2,7 @@ import React , {useState}from 'react'
 import {AppBar , Toolbar , Grid ,Card , CardContent  , CircularProgress, CardMedia , Typography }  from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import mockData from './mockData'
-
+import {toFirstCharUppercase} from './constants'
 
 const useStyles = makeStyles({
   pokedexContainer :{
@@ -19,8 +19,7 @@ const useStyles = makeStyles({
   }
 })
 
-const toFirstCharUppercase = name =>
-name.charAt(0).toUpperCase() + name.slice(1)
+ 
 
 function Pokedex({history}) {
    const classes = useStyles();
@@ -32,7 +31,7 @@ function Pokedex({history}) {
      
     return(
      <Grid item xs = {12} sm = {4} key = {pokemonId}> 
-         <Card onClick = {() => history.push(`\ ${pokemonId}`)}>
+         <Card onClick = {() => history.push(`/${pokemonId}`)}>
              <CardMedia
              className  = {classes.CardMedia}
              image = {sprite}
