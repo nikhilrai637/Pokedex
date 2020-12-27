@@ -1,6 +1,5 @@
-import { Typography } from '@material-ui/core'
+import { CircularProgress, Typography } from '@material-ui/core'
 import React , {useState} from 'react'
-import mockData from './mockData'
 import {toFirstCharUppercase} from './constants'
 import { Link } from 'react-router-dom'
 
@@ -9,7 +8,14 @@ function Pokemon(props) {
     const  {match} = props
     const  {params} = match
     const  {pokemonId} = params
-    const [pokemon , setpokemon ] = useState(mockData[`${pokemonId}`])
+    const [pokemon , setpokemon ] = useState(undefined)
+
+    //1.pokemon undefined , we are getting data
+    //->return pokemon data
+    //2.pokemon = good data , that means we've gotten info 
+    //->return actual info
+    //3. pokemon = bad/data , false 
+    //return pokemon not found
 
     const generatePokemonJSX = () => {
                
@@ -53,7 +59,10 @@ function Pokemon(props) {
  
     return (
         <>
-        {generatePokemonJSX()}
+        {pokemon === undefined && <CircularProgress/>}
+        {pokemon !== undefined && pokemon && generatePokemonJSX()}
+        {pokemon == false && <Typography>Pokemon not found</Typography>}
+      
         </>
     )
 }

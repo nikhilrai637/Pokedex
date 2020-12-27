@@ -1,7 +1,11 @@
-import React , {useState}from 'react'
+import React , {useState , useEffect}from 'react'
 import {AppBar , Toolbar , Grid ,Card , CardContent  , CircularProgress, CardMedia , Typography }  from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import mockData from './mockData'
+
+import axios from 'axios'
+
+
 import {toFirstCharUppercase} from './constants'
 
 const useStyles = makeStyles({
@@ -19,15 +23,37 @@ const useStyles = makeStyles({
   }
 })
 
- 
+
 
 function Pokedex({history}) {
+    useEffect(() => {
+        axios 
+             .get('https://pokeapi.co/api/v2/pokemon?limit=807')
+             .then(res => {
+               const {data} = res
+               const {results} = data
+               const newPokemonData = {}
+               results.forEach( (pokemon,index) => {
+                 newPokemonData[index+1] = {
+                     id : index+1,
+                     name : pokemon.name,
+                     sprite : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+                         index+1
+                      }.png`,
+                 }
+
+                
+               })
+               setpokemonData(newPokemonData)
+             })
+      
+       },[])
+
    const classes = useStyles();
-   const [pokemonData, setpokemonData] = useState(mockData)
+   const [pokemonData, setpokemonData] = useState({})
 
    const getPokemonCard = (pokemonId) => {
-       const {id , name} = pokemonData[`${pokemonId}`] 
-       const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+       const {id , name ,sprite} = pokemonData[pokemonId] 
      
     return(
      <Grid item xs = {12} sm = {4} key = {pokemonId}> 
