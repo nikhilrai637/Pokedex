@@ -1,6 +1,7 @@
 import React , {useState , useEffect}from 'react'
 import {AppBar , Toolbar , Grid ,Card , CardContent  , CircularProgress, CardMedia , Typography }  from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
+import SearchIcon from '@material-ui/icons/Search'
 import mockData from './mockData'
 
 import axios from 'axios'
@@ -75,7 +76,11 @@ function Pokedex({history}) {
     return (
           <>
           <AppBar position = "static" >
-          <Toolbar/>
+          <Toolbar>
+              <div>
+                  <SearchIcon/>
+              </div>
+          </Toolbar>
           </AppBar>
           
           {pokemonData 

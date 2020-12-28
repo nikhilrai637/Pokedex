@@ -75,7 +75,7 @@ function Pokemon(props) {
         <>
         {pokemon === undefined && <CircularProgress/>}
         {pokemon !== undefined && pokemon && generatePokemonJSX()}
-        {pokemon == false && <Typography>Pokemon not found</Typography>}
+        {pokemon === false && <Typography>Pokemon not found</Typography>}
         
         <Button variant = "contained" onClick = {() => history.push(`/`)} >
             Back to Pokedex
