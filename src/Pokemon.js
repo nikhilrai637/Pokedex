@@ -1,14 +1,28 @@
-import { CircularProgress, Typography } from '@material-ui/core'
-import React , {useState} from 'react'
+import { CircularProgress, Typography,Button } from '@material-ui/core'
+import React , {useState,useEffect} from 'react'
 import {toFirstCharUppercase} from './constants'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+
 
 
 function Pokemon(props) {
-    const  {match} = props
+    const  {match , history} = props
     const  {params} = match
     const  {pokemonId} = params
     const [pokemon , setpokemon ] = useState(undefined)
+
+    useEffect(() => {
+        axios
+             .get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`)
+             .then(res => {
+                 const {data} = res;
+                 setpokemon(data);
+             })
+             .catch(err => {
+                 setpokemon(false);
+             })
+    }, [pokemonId])
 
     //1.pokemon undefined , we are getting data
     //->return pokemon data
@@ -62,6 +76,10 @@ function Pokemon(props) {
         {pokemon === undefined && <CircularProgress/>}
         {pokemon !== undefined && pokemon && generatePokemonJSX()}
         {pokemon == false && <Typography>Pokemon not found</Typography>}
+        
+        <Button variant = "contained" onClick = {() => history.push(`/`)} >
+            Back to Pokedex
+        </Button>
       
         </>
     )
