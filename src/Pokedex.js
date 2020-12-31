@@ -72,6 +72,12 @@ function Pokedex({history}) {
 
    const classes = useStyles();
    const [pokemonData, setpokemonData] = useState({})
+   const [filter, setfilter] = useState("")
+
+   const handleSearchChange = (e) => {
+       setfilter(e.target.value)
+       console.log(filter)
+   }
 
    const getPokemonCard = (pokemonId) => {
        const {id , name ,sprite} = pokemonData[pokemonId] 
@@ -99,9 +105,11 @@ function Pokedex({history}) {
           <Toolbar>
               <div className = {classes.searchContainer}>
                   <SearchIcon className = {classes.searchIcon}/>
-                  <TextField className = {classes.searchInput}
-                  label = "pokemon" 
-                  variant = "standard" />
+                  <TextField 
+                   onChange  = {handleSearchChange} 
+                   className = {classes.searchInput}
+                   label = "pokemon" 
+                   variant = "standard" />
               </div>
           </Toolbar>
           </AppBar>
@@ -109,11 +117,11 @@ function Pokedex({history}) {
           {pokemonData 
           ?  
            ( <Grid   container spacing = {2} className = {classes.pokedexContainer}>
-            {  
-               
-               Object.keys(pokemonData).map(pokemonId => getPokemonCard(pokemonId))
-                
-
+            {    
+               Object.keys(pokemonData).map(
+               (pokemonId) =>
+               pokemonData[pokemonId].name.includes(filter) &&
+               getPokemonCard(pokemonId))
               }
             </Grid>)
           :
